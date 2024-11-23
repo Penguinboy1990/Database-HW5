@@ -1,0 +1,171 @@
+// Query 1
+[
+  {
+    $group: {
+      _id: "$Year"
+    }
+  },
+  {
+    $count: "Year"
+  }
+]
+
+
+// Query 2
+[
+  {
+    $group: {
+      _id: "$State"
+    }
+  },
+  {
+    $count: "State"
+  }
+]
+
+
+// Query 4
+[
+  {
+    $match: {
+      Rate: {
+        $gt: 10
+      }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      Rate: 1,
+      County: 1
+    }
+  }
+]
+
+
+// Query 5
+[
+  {
+    $group: {
+      _id: null,
+      averageRate: {
+        $avg: "$Rate"
+      }
+    }
+  }
+]
+
+
+// Query 6
+[
+  {
+    $match: {
+      $and: [
+        {
+          Rate: {
+            $gte: 5
+          }
+        },
+        {
+          Rate: {
+            $lte: 8
+          }
+        }
+      ]
+    }
+  },
+  {
+    $group: {
+      _id: "$County"
+    }
+  }
+]
+
+
+// Query 7
+[
+  {
+    $sort: {
+      Rate: -1
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      State: 1,
+      Rate: 1
+    }
+  },
+  {
+    $limit: 1
+  }
+]
+
+
+// Query 8
+[
+  {
+    $match: {
+      Rate: {
+        $gt: 5
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$County"
+    }
+  }
+]
+
+
+// Query 9
+[
+  {
+    $group: {
+      _id: {
+        Year: "$Year",
+        State: "$State"
+      },
+      Rate: {
+        $avg: "$Rate"
+      }
+    }
+  }
+]
+
+
+// Query 10
+[
+  {
+    $group: {
+      _id: "$State",
+      totalRate: {
+        $sum: "$Rate"
+      }
+    }
+  }
+]
+
+
+// Query 11
+[
+  {
+    $group: {
+      _id: {
+        State: "$State",
+        County: "$County"
+      },
+      totalRate: {
+        $sum: "$Rate"
+      }
+    }
+  },
+  {
+    $match: {
+      Year2015: {
+        $gte: 2015
+      }
+    }
+  }
+]
